@@ -1,47 +1,67 @@
 #include<iostream>
 #include<cmath>
-using namespace std;
 
+using namespace std;
 struct Rect{
-double x,y,w,h;
+	double x,y,w,h;
 };
 
-double overlap(Rect A,Rect 😎
-{
-// if(A.x > B.x+B.w || B.x > A.x+A.w || A.y < B.y+B.h || B.y < A.y+A.h)
-// {
-// return false;
-// }
-// else return true;
-double y1 = min(A.y,B.y);
-double y2 = max(A.y-A.h,B.y-B.h);
-double hy = y1-y2;
-
-double x1 = max(A.x,B.x);
-double x2 = min(A.x+A.w,B.x+B.w);
-double wx = x2-x1;
-
-if(hy*wx < 0)
-{
-return 0;
-}
-else return hy*wx;
-
-}
+double overlap(Rect , Rect );
 
 int main(){
-Rect A;
-Rect B;
-cout << "Please input Rect 1 (x y w h): ";
-cin >> A.x;
-cin >> A.y;
-cin >> A.w;
-cin >> A.h;
-cout << "Please input Rect 2 (x y w h): ";
-cin >> B.x;
-cin >> B.y;
-cin >> B.w;
-cin >> B.h;
-cout << "Overlap area = " << overlap(A,B);
-return 0;
+
+	float x,y,w,h;
+
+	cout << "Please input Rect 1 (x y w h): ";
+	cin>>x>>y>>w>>h;
+	
+	Rect rect1 = {x,y,w,h};
+
+	cout << "Please input Rect 2 (x y w h): ";
+	cin>>x>>y>>w>>h;
+
+	Rect rect2 = {x,y,w,h};
+	
+	cout << "Overlap area = "<<overlap(rect1,rect2);	
+
+	return 0;
+}
+
+double overlap(Rect rect1, Rect rect2) {
+    double overlapW, overlapH;
+    
+    // swap X
+    if (rect1.x > rect2.x) {
+        double t = rect2.x;
+        rect2.x = rect1.x;
+        rect1.x = t;
+        
+        t = rect2.w;
+        rect2.w = rect1.w;
+        rect1.w = t;
+        
+        t = rect2.y;
+        rect2.y = rect1.y;
+        rect1.y = t;
+        
+        t = rect2.h;
+        rect2.h = rect1.h;
+        rect1.h = t;
+    }
+    
+    if (rect1.x + rect1.w > rect2.x) {
+        overlapW = rect1.x + rect1.w - rect2.x;
+        
+        if (overlapW > rect2.w) overlapW = rect2.w;
+    }
+    else return 0;
+    
+    if (rect1.y + rect1.h > rect2.y) {
+        overlapH = rect1.y + rect1.h - rect2.y;
+        
+        if (overlapH > rect2.h) overlapH = rect2.h;
+    }
+    else return 0;
+
+	return overlapW * overlapH;
 }
